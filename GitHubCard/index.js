@@ -2,6 +2,12 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+axios.get('https://api.github.com/users/faridhamida')
+  .then(response => {
+    const cards = document.querySelector('.cards')
+      cards.appendChild(gitFollowers(response.data));
+  })
+  // .catch(error => console.log(error))
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -24,7 +30,21 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'https://api.github.com/users/ktjhan',
+  'https://api.github.com/users/AJWD92',
+  'https://api.github.com/users/crutledgedev',
+  'https://api.github.com/users/Skeeb32',
+  'https://api.github.com/users/zimashima'
+
+];
+followersArray.forEach(link => {
+  axios.get(link)
+    .then(response => {
+      const cards = document.querySelector('.cards')
+      cards.appendChild(gitFollowers(response.data));
+    })
+})
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -45,6 +65,56 @@ const followersArray = [];
 </div>
 
 */
+
+function gitFollowers(item) {
+  //Var
+  const card = document.createElement('div'),
+        img = document.createElement('img'),
+        cardInfo = document.createElement('div'),
+        name = document.createElement('h3'),
+        userName = document.createElement('p'),
+        location = document.createElement('p'),
+        profile = document.createElement('p'),
+        followers = document.createElement('p'),
+        following = document.createElement('p'),
+        bio = document.createElement('p');
+  
+  //TextContent
+  img.src =`${item.avatar_url}`;
+  name.textContent = item.name;
+  userName.textContent = item.login;
+  location.textContent = item.location;
+  profile.textContent = item.html_url;
+  followers.textContent = item.followers;
+  following.textContent = item.following;
+  bio.textContent = item.bio;
+
+
+
+
+  //Append
+
+  card.appendChild(img);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  // cardInfo.appendChild(links);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+  
+  //classList
+
+  card.classList.add('card')
+  cardInfo.classList.add('card-info')
+  name.classList.add('name')
+  userName.classList.add('username')
+
+return card; 
+}
+
 
 /* List of LS Instructors Github username's: 
   tetondan
